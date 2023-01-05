@@ -1,5 +1,5 @@
 const express = require('express');
-const { saveImageDetails, deleteImage, fetchUserImages } = require('../controllers/images');
+const { saveImageDetails, deleteImage, fetchUserImages } = require('../controllers/images/images');
 const checkAuthToken = require('../middleware/checkAuthToken');
 
 const router = express.Router();

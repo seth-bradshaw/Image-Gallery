@@ -1,12 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
+const mongoose = require('mongoose');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var { usersRouter, imagesRouter, authRouter } = require('./routes');
+require('dotenv').config({ path: './.env'});
 
-require('dotenv').config({ path: './.env'})
-
+const db = process.env.MONGO_URI;
 var app = express();
 
 app.use(logger('dev'));
@@ -14,6 +15,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+mongoose.connect(db, { useNewUrlParser: true })
+  .then(() => console.log("MongoDB successfully connected"))
+  .catch((err) => console.log({ mongo_conn_err: err }));
 
 app.use('/users', usersRouter);
 app.use('/images', imagesRouter);
