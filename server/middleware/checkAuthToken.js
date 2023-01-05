@@ -34,7 +34,6 @@ function checkAuthToken(req, res, next) {
             const currentTime = date.getTime();
 
             if (currentTime > secret.expires_at) {
-                console.log('expired')
                 return res.status(401).send('Access token has expired. Please relogin.');
             }
 
