@@ -59,22 +59,26 @@ const deleteImage = async (req, res) => {
 }
 
 const fetchUserImages = async (req, res) => {
+    const { limit = 10, offset = 0 } = req.query;
 
-    const saveImageHandler = async (client) => {
+    const paginateImagesHandler = async (client) => {
         const db = client.db('gallery');
         const coll = db.collection('images');
 
-        const result = await coll.deleteOne({id});
+        const result = await coll.find({ userId: res.userId }).limit(+limit).skip(+offset);
+        
+        const images = [];
+        
+        await result.forEach((img) => images.push(img))
 
-        if (!result.deletedCount < 1) {
-            res.status(400).send({ error: { message: 'Failed to upload image. Please check id and try again.' } })
+        if (result.killed) {
+            res.status(400).send({ error: { message: 'Failed to fetch user images. Please try again.' } })
         } else {
-            res.status(200).send('Successfully deleted image.')
+            res.status(200).send(images)
         }
-
     }
 
-    await runClientWith(saveImageHandler);
+    await runClientWith(paginateImagesHandler);
 }
 
-module.exports = { saveImageDetails, editImageDetails, deleteImage }
+module.exports = { saveImageDetails, editImageDetails, deleteImage, fetchUserImages }
