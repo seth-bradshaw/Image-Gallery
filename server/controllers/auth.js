@@ -13,10 +13,9 @@ const login = async (req, res, next) => {
         }
 
         if (compare(body.password, user.password)) {
-            res.user = { username: body.username, id: user.id }
+            res.user = { username: body.username, id: user._id }
             next(); // * move on to auth token middleware
         } else {
-            console.log('incorrect password')
             res.status(401).send('Invalid password.')
         }
     }
