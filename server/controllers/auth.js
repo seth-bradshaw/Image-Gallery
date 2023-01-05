@@ -1,13 +1,10 @@
-const runClientWith = require('../mongo/client');
+const User = require('../models/User');
 const { compare } = require('./encryptionHelpers');
 
 const login = async (req, res, next) => {
     const { body } = req;
-    const authenticateLoginHandler = async (client) => {
-        const db = client.db('gallery');
-        const coll = db.collection("user");
-        const user = await coll.findOne({ username: body.username })
 
+    User.findOne({ username: body.username }).then(user => {
         if (!user) {
             res.status(401).send('Unable to locate user with given username.')
         }
@@ -18,8 +15,7 @@ const login = async (req, res, next) => {
         } else {
             res.status(401).send('Invalid password.')
         }
-    }
-    await runClientWith(authenticateLoginHandler);
+    })
 }
 
 module.exports = { login }

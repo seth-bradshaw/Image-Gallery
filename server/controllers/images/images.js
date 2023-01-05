@@ -1,34 +1,24 @@
-const runClientWith = require('../../mongo/client');
+const { pick } = require('rambda');
+const Image = require('../../models/Image');
+const validateImageCreationRequestBody = require('../../validation/validateImage');
 
 const saveImageDetails = async (req, res) => {
     const { body } = req;
+    const { isValid, errors } = validateImageCreationRequestBody(body);
 
-    if (!body.handle || body.handle.length === 0) {
-        res.status(400).send('Invalid body: handle field is required.');
-    } else {
-        const date = new Date();
-        const time = date.getTime();
-    
-        const saveImageHandler = async (client) => {
-            const db = client.db('gallery');
-            const coll = db.collection('images');
-            const image = {
-                ...body,
-                userId: res.userId,
-                uploaded_at: time
-            }
-    
-            const result = await coll.insertOne(image);
-    
-            if (!result.insertedId) {
-                res.status(400).send({ error: { message: 'Failed to upload image. Please try again.' } })
-            }
-    
-            res.status(200).send('Successfully uploaded image.')
-        }
-    
-        await runClientWith(saveImageHandler);
+    if (!isValid) {
+        res.status(400).send({ message: 'Failed to create image. Invalid request body.', errors });
+        return;
     }
+
+    const image = {
+        ...body,
+        userId: res.userId
+    }
+            
+    Image.create(image)
+        .then((img) => res.status(200).send(pick(['id', 'handle'], img)))
+        .catch(error => res.status(400).send({ message: 'Failed to upload image. Please try again.', error }));
 
 }
 
@@ -38,47 +28,30 @@ const editImageDetails = async (req, res) => {
 }
 
 const deleteImage = async (req, res) => {
-    const { id } = req.params;
+    const { id = '' } = req.query;
 
-
-    const deleteImageHandler = async (client) => {
-        const db = client.db('gallery');
-        const coll = db.collection('images');
-
-        const result = await coll.deleteOne({id});
-
-        if (!result.deletedCount < 1) {
-            res.status(400).send({ error: { message: 'Failed to upload image. Please check id and try again.' } })
-        } else {
-            res.status(200).send('Successfully deleted image.')
+    await Image.findOne({ _id: id }).then((image) => {
+        console.log('image', { image, id })
+        if (!image) {
+            return res.status(400).send({ error: { message: 'Failed to delete image. Invalid id' } })
         }
 
-    }
-
-    await runClientWith(deleteImageHandler);
+        Image.deleteOne({ _id: id }).then((msg) => {
+            if (!msg.acknowledged || msg.deletedCount < 1) {
+                return res.status(400).send('Failed to delete image. Please try again.')
+            } else {
+                return res.status(200).send('Successfully deleted image.');
+            }
+        })
+    })
 }
 
 const fetchUserImages = async (req, res) => {
     const { limit = 10, offset = 0 } = req.query;
 
-    const paginateImagesHandler = async (client) => {
-        const db = client.db('gallery');
-        const coll = db.collection('images');
+    const images = await Image.find({ userId: res.userId }, 'id handle', { limit: +limit, skip: +offset });
 
-        const result = await coll.find({ userId: res.userId }).limit(+limit).skip(+offset);
-        
-        const images = [];
-        
-        await result.forEach((img) => images.push(img))
-
-        if (result.killed) {
-            res.status(400).send({ error: { message: 'Failed to fetch user images. Please try again.' } })
-        } else {
-            res.status(200).send(images)
-        }
-    }
-
-    await runClientWith(paginateImagesHandler);
+    return res.status(200).send(images);
 }
 
 module.exports = { saveImageDetails, editImageDetails, deleteImage, fetchUserImages }
