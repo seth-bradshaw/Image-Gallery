@@ -38,6 +38,7 @@ function checkAuthToken(req, res, next) {
                 return next(new Error('Access token has expired. Please relogin.'));
             }
 
+            res.userId = secret.user.id;
             return next();
         }
     } else {
