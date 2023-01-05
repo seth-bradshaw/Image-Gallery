@@ -19,25 +19,25 @@ function checkAuthToken(req, res, next) {
 
             if (token === undefined) {
                 // access token - missing
-                // TODO make a univerisal auth error
-                return next(new Error(
+                return res.status(401).send(
                     "Authorization token required."
-                ));
+                );
             }
 
             const secret = decryptToken(credentials)
 
             if (!secret.user.id) {
-                return next(new Error('Invalid access token'));
+                return res.status(401).send('Invalid credentials.');
             }
 
             const date = new Date();
             const currentTime = date.getTime();
 
             if (currentTime > secret.expires_at) {
-                return next(new Error('Access token has expired. Please relogin.'));
+                return res.status(401).send('Access token has expired. Please relogin.');
             }
 
+            res.userId = secret.user.id;
             return next();
         }
     } else {

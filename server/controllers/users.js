@@ -20,7 +20,7 @@ const createUser = async (req, res, next) => {
 
                 if (result.insertedId) {
                     res.user = { username: user.username, id: result.insertedId };
-                    res.message = 'Successfully created user.'
+                    res.message = { message: 'Successfully created user.', user: res.user } 
                     next();
                 } else {
                     res.status(400).send({error: { message: 'Failed to create user. Please try again.'}});

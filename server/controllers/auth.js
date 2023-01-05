@@ -1,9 +1,9 @@
-const { client, runClientWith } = require('../mongo/client');
+const runClientWith = require('../mongo/client');
 const { compare } = require('./encryptionHelpers');
 
 const login = async (req, res, next) => {
     const { body } = req;
-    const authenticateLoginHandler = async () => {
+    const authenticateLoginHandler = async (client) => {
         const db = client.db('gallery');
         const coll = db.collection("user");
         const user = await coll.findOne({ username: body.username })
@@ -13,10 +13,9 @@ const login = async (req, res, next) => {
         }
 
         if (compare(body.password, user.password)) {
-            console.log('user', { user, body })
+            res.user = { username: body.username, id: user._id }
             next(); // * move on to auth token middleware
         } else {
-            console.log('incorrect password')
             res.status(401).send('Invalid password.')
         }
     }
