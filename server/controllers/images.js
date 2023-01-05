@@ -41,6 +41,25 @@ const deleteImage = async (req, res) => {
     const { id } = req.params;
 
 
+    const deleteImageHandler = async (client) => {
+        const db = client.db('gallery');
+        const coll = db.collection('images');
+
+        const result = await coll.deleteOne({id});
+
+        if (!result.deletedCount < 1) {
+            res.status(400).send({ error: { message: 'Failed to upload image. Please check id and try again.' } })
+        } else {
+            res.status(200).send('Successfully deleted image.')
+        }
+
+    }
+
+    await runClientWith(deleteImageHandler);
+}
+
+const fetchUserImages = async (req, res) => {
+
     const saveImageHandler = async (client) => {
         const db = client.db('gallery');
         const coll = db.collection('images');
