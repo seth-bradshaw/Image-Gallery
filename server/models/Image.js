@@ -12,6 +12,14 @@ const ImageSchema = new Schema({
   userId: {
     type: String,
     required: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.Now
+  },
+  date_last_modified: {
+    type: Date,
+    default: Date.Now
   }
   // TODO add tags *stretch*
 });
