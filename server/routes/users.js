@@ -1,6 +1,6 @@
 const express = require('express');
 const { login } = require('../controllers/auth');
-const { createUser, editUser, deleteUser } = require('../controllers/users');
+const { createUser, editUser, deleteUser } = require('../controllers/users/users');
 const generateAuthToken = require('../middleware/generateAuthToken');
 const router = express.Router();
 
