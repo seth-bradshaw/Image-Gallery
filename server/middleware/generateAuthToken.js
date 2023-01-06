@@ -6,7 +6,7 @@ const generateAuthToken = async (req, res) => {
     const dataToEncrypt = {
         user: res.user,
         created_at: currentTime,
-        expires_at: currentTime + (60000 * 30) // * 30 minutes
+        expires_at: currentTime + (60000 * 60) // * 1 hour
     }
 
     const auth_token = jwt.sign(dataToEncrypt, process.env.JWT_KEY)
