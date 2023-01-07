@@ -19,22 +19,20 @@ function checkAuthToken(req, res, next) {
 
             if (token === undefined) {
                 // access token - missing
-                return res.status(401).send(
-                    "Authorization token required."
-                );
+                return res.status(401).send({ error: { message: "Authorization token required." } });
             }
 
             const secret = decryptToken(credentials)
 
             if (!secret.user.id) {
-                return res.status(401).send('Invalid credentials.');
+                return res.status(401).send({ error: { message: 'Invalid credentials.' } });
             }
 
             const date = new Date();
             const currentTime = date.getTime();
 
             if (currentTime > secret.expires_at) {
-                return res.status(401).send('Access token has expired. Please relogin.');
+                return res.status(401).send({ error: { message: 'Access token has expired. Please relogin.' } });
             }
 
             res.userId = secret.user.id;
@@ -42,9 +40,7 @@ function checkAuthToken(req, res, next) {
         }
     } else {
         // No authorization header, unable access resource
-        return next(new Error(
-            "Authorization header required."
-        ));
+        return res.status(400).send({ error: { message: "Authorization header required." } } );
     }
 
 }
