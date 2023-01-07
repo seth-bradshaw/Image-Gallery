@@ -6,14 +6,14 @@ const login = async (req, res, next) => {
 
     User.findOne({ username: body.username }).then(user => {
         if (!user) {
-            res.status(401).send('Unable to locate user with given username.')
+            return res.status(401).send({ error: { message: 'Unable to locate user with given username.' } })
         }
 
         if (compare(body.password, user.password)) {
             res.user = { username: body.username, id: user._id }
             next(); // * move on to auth token middleware
         } else {
-            res.status(401).send('Invalid password.')
+            return res.status(401).send({ error: { message: 'Invalid password.' } })
         }
     })
 }

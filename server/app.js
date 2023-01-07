@@ -1,15 +1,17 @@
-var createError = require('http-errors');
-var express = require('express');
+const createError = require('http-errors');
+const express = require('express');
 const mongoose = require('mongoose');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var { usersRouter, imagesRouter, authRouter } = require('./routes');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors');
+const { usersRouter, imagesRouter, authRouter } = require('./routes');
 require('dotenv').config({ path: './.env'});
 
 const db = process.env.MONGO_URI;
-var app = express();
+const app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
