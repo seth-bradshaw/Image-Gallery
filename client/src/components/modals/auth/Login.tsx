@@ -1,9 +1,11 @@
+import { isEmpty } from 'rambda';
 import React, { useState } from 'react'
+import { loginUser } from '../../../services/user';
 import Button, { ButtonType } from '../../common/Button'
 import Input, { HandleChangeEvent } from '../../common/Input'
 
 type Props = {
-
+  handleClose: () => void;
 }
 
 const initialFormState = {
@@ -12,7 +14,7 @@ const initialFormState = {
   errors: {}
 }
 
-export default function Login({}: Props) {
+export default function Login({ handleClose }: Props) {
   // form state
   const [loginForm, setLoginForm] = useState(initialFormState)
 
@@ -24,7 +26,22 @@ export default function Login({}: Props) {
   // handleSubmit
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('submitted', { loginForm })
+
+    if (!isEmpty(loginForm.errors)) {
+      // TODO handle error
+    }
+
+    const { username, password } = loginForm;
+
+    const response = await loginUser({ username, password })
+
+    if (response?.error) {
+      // TODO handle error
+      console.log('error logging user in', { response })
+    } else {
+      handleClose();
+    }
+    
   }
 
   return (
