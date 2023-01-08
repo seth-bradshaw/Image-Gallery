@@ -43,19 +43,19 @@ export default function LoginForm({}: Props) {
   };
 
   return (
-    <div className="h-full w-full ">
+    <div className="h-full w-full">
       <form
         onSubmit={handleSubmit}
         className="h-full flex flex-col gap-4 px-20 py-5 items-center justify-center"
       >
         <Input
-          placeholder="Please enter your username"
+          placeholder="Username"
           name="username"
           value={loginForm.username}
           handleChange={handleChange}
         />
         <Input
-          placeholder="Please enter your password"
+          placeholder="Password"
           name="password"
           value={loginForm.password}
           handleChange={handleChange}

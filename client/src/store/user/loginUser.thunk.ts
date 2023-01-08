@@ -3,7 +3,7 @@ import { LoginBody, loginUser } from "../../services/user";
 import { Error, User } from "../types";
 
 export type LoginResponse = {
-    access_token: string;
+    auth_token: string;
     user: User;
     error?: Error 
 }
