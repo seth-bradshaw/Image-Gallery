@@ -26,7 +26,26 @@ export type UIState = {
     modal: ModalOptions | null;
 }
 
+export type Image = {
+    id: string;
+    handle: string;
+}
+
+export interface FetchImagesResponse {
+    images: Array<Image>;
+    next: string | null;
+    prev: string | null;
+}
+
+export interface ImagesState extends FetchImagesResponse {
+    offset: number;
+    limit: number;
+    status: string;
+    error: null | Error
+}
+
 export type State = {
     ui: UIState;
     user: UserState;
+    images: ImagesState;
 }
