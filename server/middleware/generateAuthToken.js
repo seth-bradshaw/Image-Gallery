@@ -11,7 +11,7 @@ const generateAuthToken = async (req, res) => {
 
     const auth_token = jwt.sign(dataToEncrypt, process.env.JWT_KEY)
 
-    res.status(200).send({ auth_token })
+    res.status(200).send({ auth_token, user: res.user })
 }
 
 module.exports = generateAuthToken;

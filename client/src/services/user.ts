@@ -2,12 +2,14 @@ import axios from "axios";
 // @ts-ignore
 import Cookies from "js-cookie";
 import { LOGIN } from "../constants/endpoints";
+import { User } from "../store/types";
 import { getHeaders } from "./helpers";
 
-type LoginBody = {
+export type LoginBody = {
     username: string;
     password: string;
 }
+
 
 export const loginUser = async (credentials: LoginBody) => {
     const response = await axios.post(LOGIN, credentials, { headers: getHeaders() })
