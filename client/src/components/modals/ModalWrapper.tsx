@@ -10,7 +10,7 @@ interface Props {
 export default function ModalWrapper({ children, title }: PropsWithChildren<Props>) {
   const closeModal = useToggleModal();
   return (
-    <div className="w-full h-screen z-40 bg-slate-300/25 block top-0 fixed">
+    <div className="w-full h-screen z-40 bg-modalBlur block top-0 fixed">
       <div className="h-full w-full flex items-center justify-center">
         <div className="w-full h-screen sm:w-96 sm:h-96 md:h-[480px] md:w-[480px] bg-white flex flex-col rounded shadow">
             <div className="w-full shadow rounded-t h-10 bg-white text-gray-700 font-bold flex items-center text-center justify-center">
