@@ -52,10 +52,10 @@ const fetchUserImages = async (req, res) => {
     const images = await Image.find({ userId: res.userId }, 'id handle', { limit: +limit, skip: +offset });
 
     const baseUrl =`${process.env.HOST}/images/user`; 
-    const nextOffset = +offset + images.length;
+    const nextOffset = +offset + +limit;
     const next = images.length === +limit ? `${baseUrl}?offset=${nextOffset}&limit=${limit}` : null;
     const prev =  nextOffset - limit > 1 ? `${baseUrl}?offset=${Math.max(0, offset - limit)}&limit=${limit}` : null;
-
+    
     return res.status(200).send({
         images,
         next,
