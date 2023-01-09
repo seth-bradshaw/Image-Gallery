@@ -21,13 +21,12 @@ const maybeUpdateState = (state: ImagesState, payload: Image) => {
   return state; 
 }
 
-// ? do we even need offset
 const initialState: ImagesState = {
   images: [],
   next: null,
   prev: null,
   offset: 0,
-  limit: 2,
+  limit: 9,
   status: '',
   error: null
 };
@@ -38,11 +37,21 @@ export const imagesSlice = createSlice({
   reducers: {
     changeGallerySize: (state, action) => {
         state.limit = action.payload;
+    },
+    clearImages: (state) => {
+      state.images = initialState.images;
+      state.next = initialState.next;
+      state.prev = initialState.prev;
+      state.offset = initialState.offset;
+      state.limit = initialState.limit;
+      state.status = initialState.status;
+      state.error = initialState.error;
     }
   },
   extraReducers: (builder) => {
     // * fetch images cases
     builder.addCase(fetchImages.pending, (state) => {
+      state.images = [];
       state.status = "loading";
       state.error = null;
     });
@@ -83,6 +92,6 @@ export const imagesSlice = createSlice({
   },
 });
 
-export const { changeGallerySize } = imagesSlice.actions;
+export const { changeGallerySize, clearImages } = imagesSlice.actions;
 
 export default imagesSlice.reducer;
