@@ -8,7 +8,7 @@ export interface User {
     email: string;
     fname: string;
     lname: string;
-    id: string;
+    _id: string;
 }
 
 export interface UserState extends User {

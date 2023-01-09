@@ -19,6 +19,8 @@ export default function UploadOptions({ open, displayOptions }: Props) {
   const updateScope = (e: HandleChangeEvent) => setScope(e.target.value);
 
   const handleSubmit = () => {
+    setTitle('');
+    setScope('private');
     open({ scope, title  });
   };
 

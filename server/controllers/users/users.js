@@ -29,7 +29,7 @@ const createUser = async (req, res, next) => {
         .save()
         .then((user) => {
           res.user = {
-            id: user._id,
+            _id: user._id,
             username: user.username,
             email: user.email,
             fname: user.fname,
@@ -38,7 +38,7 @@ const createUser = async (req, res, next) => {
           res.message = {
             message: "Successfully created user.",
             user: pick(
-              ["id", "username", "email", "fname", "lname", "created_at"],
+              ["_id", "username", "email", "fname", "lname", "created_at"],
               user
             ),
           };
