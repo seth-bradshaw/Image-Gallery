@@ -5,7 +5,6 @@ const decryptToken = (token) => {
     return secret;
 }
 
-// TODO need to verify this functions properly
 function checkAuthToken(req, res, next) {
     if (req.headers && req.headers.authorization) {
         let token;
@@ -24,7 +23,7 @@ function checkAuthToken(req, res, next) {
 
             const secret = decryptToken(credentials)
 
-            if (!secret.user.id) {
+            if (!secret.user._id) {
                 return res.status(401).send({ error: { message: 'Invalid credentials.' } });
             }
 
@@ -35,7 +34,7 @@ function checkAuthToken(req, res, next) {
                 return res.status(401).send({ error: { message: 'Access token has expired. Please relogin.' } });
             }
 
-            res.userId = secret.user.id;
+            res.userId = secret.user._id;
             return next();
         }
     } else {

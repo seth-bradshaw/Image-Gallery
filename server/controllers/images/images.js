@@ -13,7 +13,7 @@ const saveImageDetails = async (req, res) => {
     
     body.tags.userId = res.userId;
     Image.create(body)
-        .then((img) => res.status(200).send(pick(['id', 'handle', 'tags'], img)))
+        .then((img) => res.status(200).send(pick(['_id', 'handle', 'tags'], img)))
         .catch(error => res.status(400).send({ message: 'Failed to upload image. Please try again.', error }));
 
 }

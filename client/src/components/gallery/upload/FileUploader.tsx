@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as filestack from 'filestack-js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import uploadImage from '../../../store/images/uploadImage.thunk';
 import UploadButton from './UploadButton';
 import { ImageTags } from '../../../store/types';
+import { getIsLoggedIn } from '../../../store/user/user.selectors';
 
 type Props = {
   config?: any
@@ -15,10 +16,11 @@ interface UploadError {
 }
 
 export default function FileUploader({ config }: Props) {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(getIsLoggedIn)
   const [client, setClient] = useState<filestack.Client>();
   const tags = useRef({});
   const [error, setError] = useState<UploadError>({ filesFailed: [], error: {} as Error });
-  const dispatch = useDispatch();
 
   const handleSuccess = async ({ handle }: filestack.PickerFileMetadata) => {
     // @ts-ignore
@@ -59,9 +61,9 @@ export default function FileUploader({ config }: Props) {
     }
   }
 
-  return (
+  return isLoggedIn ? (
     <div className="relative inline-block">
       <UploadButton open={open} />
     </div>
-  )
+  ) : null;
 }

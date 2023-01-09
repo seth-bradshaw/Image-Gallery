@@ -20,9 +20,7 @@ export default function GallerySection({}: Props) {
   const fetchUserImages = async (url: string | null) => dispatch(fetchImages(url));
 
   useEffect(() => {
-    if (isEmpty(images) && isLoggedIn) {
-      fetchUserImages(null);
-    }
+    fetchUserImages(null);
   }, [isLoggedIn]);
 
   return (

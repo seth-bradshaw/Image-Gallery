@@ -1,7 +1,7 @@
 import axios from "axios";
 // @ts-ignore
 import Cookies from "js-cookie";
-import { CREATE_USER, LOGIN } from "../constants/endpoints";
+import { CREATE_USER, LOGIN, LOGIN_WITH_TOKEN } from "../constants/endpoints";
 import { User } from "../store/types";
 import { getHeaders } from "./helpers";
 
@@ -37,6 +37,14 @@ export const register = async (account: Account) => {
             return res.data;
         })
         .catch(err => err.response.data);
+    
+    return response;
+}
+
+export const loginWithToken = async () => {
+    const response = await axios.get(LOGIN_WITH_TOKEN, { headers: getHeaders() })
+        .then(res => res.data)
+        .catch(err => err.response.data)
     
     return response;
 }
