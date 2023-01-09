@@ -12,13 +12,14 @@ type Props = {}
 
 export default function UserCard({}: Props) {
   const dispatch = useDispatch();
-  const [displayAccount, setDisplayAccount] = useState<boolean>(true);
+  const [displayAccount, setDisplayAccount] = useState<boolean>(false);
   const user = useSelector(getUser);
   const promptModal = useToggleModal();
   
   const logoutUser = () => {
     dispatch(logout());
     dispatch(clearImages());
+    setDisplayAccount(false);
   }
 
   const toggleDisplay = () => {
@@ -41,17 +42,28 @@ export default function UserCard({}: Props) {
                 <Button label="Logout" className="hover:bg-white hover:text-purple-600 border-purple-600 hover:border-purple-400 hover:ring-purple-400 bg-purple-600 text-white" handleClick={logoutUser} />
               </div>
             ) : (
-              <div>
-                <Button
-                  className="hover:bg-white hover:text-orange-600 border-orange-600 hover:border-orange-400 hover:ring-orange-400 bg-orange-600 text-white"
-                  label="Sign Up"
-                  handleClick={() => promptModal(ModalOptions.signup)}
-                />
-                <Button
-                  className="hover:bg-white hover:text-purple-600 border-purple-600 hover:border-purple-400 hover:ring-purple-400 bg-purple-600 text-white"
-                  label="Login"
-                  handleClick={() => promptModal(ModalOptions.login)}
-                />
+              <div className="flex flex-col gap-4">
+                <div className="h-8 text-lg text-purple-600 font-medium  w-full text-center">
+                  <h4>Register or login</h4>
+                </div>
+                <div className="w-full flex justify-evenly">
+                  <Button
+                    className="hover:bg-white hover:text-orange-600 border-orange-600 hover:border-orange-400 hover:ring-orange-400 bg-orange-600 text-white"
+                    label="Sign Up"
+                    handleClick={() => {
+                      promptModal(ModalOptions.signup);
+                      setDisplayAccount(false);
+                    }}
+                  />
+                  <Button
+                    className="hover:bg-white hover:text-purple-600 border-purple-600 hover:border-purple-400 hover:ring-purple-400 bg-purple-600 text-white"
+                    label="Login"
+                    handleClick={() => {
+                      promptModal(ModalOptions.login);
+                      setDisplayAccount(false);
+                    }}
+                  />
+                </div>
               </div>
             )
           }
