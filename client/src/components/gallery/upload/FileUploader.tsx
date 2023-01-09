@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as filestack from 'filestack-js';
 import Button from '../../common/Button';
+import { useDispatch } from 'react-redux';
+import uploadImage from '../../../store/images/uploadImage.thunk';
 
 type Props = {
   config?: any
@@ -8,8 +10,15 @@ type Props = {
 
 export default function FileUploader({ config }: Props) {
   const [client, setClient] = useState<filestack.Client>();
+  const dispatch = useDispatch();
+
+  const handleSuccess = async (handle: string) => {
+    // @ts-ignore
+    dispatch(uploadImage(handle))
+  }
+
   const options = {
-    onFileUploadFinished: (file: filestack.PickerFileMetadata) => console.log('finished upload', { file }),
+    onFileUploadFinished: (file: filestack.PickerFileMetadata) => handleSuccess(file.handle),
     onFileUploadFailed: (file: filestack.PickerFileMetadata, error: Error) => console.log('failed to upload', { file, error }),
     onClose: () => console.log('closed'),
     fromSources: ['local_file_system', 'url', 'imagesearch', 'facebook', 'instagram', 'googledrive', 'dropbox', 'unsplash']
