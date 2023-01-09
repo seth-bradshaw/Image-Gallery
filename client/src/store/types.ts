@@ -19,11 +19,13 @@ export interface UserState extends User {
 
 export enum ModalOptions {
     login = "login",
-    signup = "signup"
+    signup = "signup",
+    image = "image"
 }
 
 export type UIState = {
     modal: ModalOptions | null;
+    poppedImage: Image | null;
 }
 
 export interface ImageTags {
