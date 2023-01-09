@@ -66,7 +66,7 @@ const fetchPublicImages = async (req, res) => {
 
     const images = await Image.find({ "tags.scope": 'public' }, 'id handle tags', { limit: +limit, skip: +offset });
 
-    const baseUrl =`${process.env.HOST}/images/user`; 
+    const baseUrl =`${process.env.HOST}/images/public`; 
     const nextOffset = +offset + +limit;
     // you need total to fix bug
     const next = images.length === +limit ? `${baseUrl}?offset=${nextOffset}&limit=${limit}` : null;
