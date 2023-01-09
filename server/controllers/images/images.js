@@ -61,4 +61,23 @@ const fetchUserImages = async (req, res) => {
     });
 }
 
-module.exports = { saveImageDetails, editImageDetails, deleteImage, fetchUserImages }
+const fetchPublicImages = async (req, res) => {
+    const { limit = 10, offset = 0 } = req.query;
+
+    const images = await Image.find({ "tags.scope": 'public' }, 'id handle tags', { limit: +limit, skip: +offset });
+
+    const baseUrl =`${process.env.HOST}/images/user`; 
+    const nextOffset = +offset + +limit;
+    // you need total to fix bug
+    const next = images.length === +limit ? `${baseUrl}?offset=${nextOffset}&limit=${limit}` : null;
+    const prev =  nextOffset - limit > 1 ? `${baseUrl}?offset=${Math.max(0, offset - limit)}&limit=${limit}` : null;
+    
+    // how to return response ===>
+    return res.status(200).send({
+        images,
+        next,
+        prev
+    });
+}
+
+module.exports = { saveImageDetails, editImageDetails, deleteImage, fetchUserImages, fetchPublicImages }
