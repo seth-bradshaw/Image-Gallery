@@ -1,6 +1,6 @@
 import axios from "axios";
-// @ts-ignore
 import { FETCH_IMAGES, UPLOAD_IMAGE } from "../constants/endpoints";
+import { ImageTags } from "../store/types";
 import { getHeaders } from "./helpers";
 
 
@@ -15,10 +15,12 @@ export const fetchUserImages = async (optUrl: string | null, limit: number) => {
 
 export type ImageDetailsBody = {
     handle: string;
+    tags: ImageTags;
 }
 
 export const uploadImageDetails = async (details: ImageDetailsBody) => {
-    const response = await axios.post(UPLOAD_IMAGE, details, { headers: getHeaders() })
+    const body = JSON.stringify(details);
+    const response = await axios.post(UPLOAD_IMAGE, body, { headers: {...getHeaders(), 'Content-Type': 'application/json'} })
         .then(res => res.data)
         .catch(err => err.response.data)
     

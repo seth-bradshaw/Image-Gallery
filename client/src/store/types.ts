@@ -26,11 +26,17 @@ export type UIState = {
     modal: ModalOptions | null;
 }
 
-export type Image = {
-    id: string;
-    handle: string;
+export interface ImageTags {
+    scope: string;
+    title: string;
+    userId?: string;
 }
 
+export type Image = {
+    _id: string;
+    handle: string;
+    tags: ImageTags;
+}
 
 interface FetchImagesResponse {
     images: Array<Image>;
