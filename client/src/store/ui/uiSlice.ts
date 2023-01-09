@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UIState } from '../types'
+import { ModalOptions, UIState } from '../types'
 
 const initialState: UIState = {
-    modal: null
+  modal: null,
+  poppedImage: null
 };
 
 export const uiSlice = createSlice({
@@ -12,9 +13,13 @@ export const uiSlice = createSlice({
     changeModal: (state, action) => {
       state.modal = action.payload;
     },
+    popImage: (state, action) => {
+      state.modal = ModalOptions.image;
+      state.poppedImage = action.payload
+    }
   }
 });
 
-export const { changeModal } = uiSlice.actions;
+export const { changeModal, popImage } = uiSlice.actions;
 
 export default uiSlice.reducer;

@@ -1,5 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit";
+import { State } from "../types";
 
-// @ts-ignore
-export const getModal = createSelector((state) => state.ui.modal, (modal) => modal)
+const selectUI = (state: State) => state.ui;
 
+export const getModal = createSelector(selectUI, ({ modal }) => modal);
+
+export const getPoppedImage = createSelector(selectUI, ({ poppedImage }) => poppedImage);
