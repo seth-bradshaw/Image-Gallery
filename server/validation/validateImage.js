@@ -9,6 +9,10 @@ const validateImageCreationRequestBody = (body) => {
     errors.handle = 'Handle field is required';
   }
 
+  if (isNil(body.tags)) {
+    errors.tags = 'Tag field is required'
+  }
+
   return {
     errors,
     isValid: isEmpty(errors),

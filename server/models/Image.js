@@ -3,15 +3,30 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const Tags = new Schema({
+  scope: {
+    type: String,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  userId: {
+    type: String,
+    required: true
+  }
+})
+
 // Create Image Schema
 const ImageSchema = new Schema({
   handle: {
     type: String,
     required: true,
   },
-  userId: {
-    type: String,
-    required: true,
+  tags: {
+    type: Tags,
+    required: true
   },
   created_at: {
     type: Date,
@@ -21,7 +36,6 @@ const ImageSchema = new Schema({
     type: Date,
     default: Date.Now
   }
-  // TODO add tags *stretch*
 });
 
 module.exports = Image = mongoose.model('images', ImageSchema);
