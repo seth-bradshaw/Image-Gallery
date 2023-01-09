@@ -6,6 +6,7 @@ const USER_BASE_URL = `${BASE_URL}/users`;
 
 // * auth endpoints
 export const LOGIN = `${AUTH_BASE_URL}/login`;
+export const LOGIN_WITH_TOKEN = `${AUTH_BASE_URL}/token_verification`
 
 // * user endpoints
 export const CREATE_USER = `${USER_BASE_URL}/create`;
