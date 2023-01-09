@@ -12,3 +12,4 @@ export const CREATE_USER = `${USER_BASE_URL}/create`;
 
 // * image(s) endpoints
 export const FETCH_IMAGES = `${IMAGES_BASE_URL}/user`;
+export const UPLOAD_IMAGE = `${IMAGES_BASE_URL}/upload`;

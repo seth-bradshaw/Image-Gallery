@@ -1,6 +1,6 @@
 import axios from "axios";
 // @ts-ignore
-import { FETCH_IMAGES } from "../constants/endpoints";
+import { FETCH_IMAGES, UPLOAD_IMAGE } from "../constants/endpoints";
 import { getHeaders } from "./helpers";
 
 
@@ -10,5 +10,17 @@ export const fetchUserImages = async (optUrl: string | null, limit: number) => {
         .then(res => res.data)
         .catch(err => err.response.data)
 
+    return response;
+}
+
+export type ImageDetailsBody = {
+    handle: string;
+}
+
+export const uploadImageDetails = async (details: ImageDetailsBody) => {
+    const response = await axios.post(UPLOAD_IMAGE, details, { headers: getHeaders() })
+        .then(res => res.data)
+        .catch(err => err.response.data)
+    
     return response;
 }

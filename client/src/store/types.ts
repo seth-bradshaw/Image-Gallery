@@ -31,17 +31,22 @@ export type Image = {
     handle: string;
 }
 
-export interface FetchImagesResponse {
+
+interface FetchImagesResponse {
     images: Array<Image>;
     next: string | null;
     prev: string | null;
+}
+
+export interface FetchImagesResponseWithError extends FetchImagesResponse {
+    error?: Error
 }
 
 export interface ImagesState extends FetchImagesResponse {
     offset: number;
     limit: number;
     status: string;
-    error: null | Error
+    error: null | Error;
 }
 
 export type State = {
