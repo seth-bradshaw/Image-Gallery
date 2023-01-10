@@ -27,7 +27,6 @@ const deleteImage = async (req, res) => {
     const { id = '' } = req.query;
 
     await Image.findOne({ _id: id }).then((image) => {
-        console.log('image', { image, id })
         if (!image) {
             return res.status(400).send({ error: { message: 'Failed to delete image. Invalid id' } })
         }

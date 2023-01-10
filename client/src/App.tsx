@@ -1,22 +1,20 @@
 import { useEffect } from 'react';
-// @ts-ignore
 import Cookies from 'js-cookie'
 import Gallery from './components/gallery/GallerySection';
 import ModalPortal from './components/modals/ModalPortal';
 import Header from './components/header/Header';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from './store/hooks';
 import { getIsLoggedIn } from './store/user/user.selectors';
 import loginWithToken from './store/user/loginWithToken.thunk';
 
 function App() {
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getIsLoggedIn);
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector(getIsLoggedIn);
 
   useEffect(() => {
     if (!isLoggedIn) {
       const auth_token = Cookies.get('auth_token');
       if (auth_token) {
-        // @ts-ignore
         dispatch(loginWithToken());
       }
     }

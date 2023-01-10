@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../store/hooks'
 import { ModalOptions } from '../../store/types'
 import { getModal } from '../../store/ui/ui.selectors'
 import LoginModal from './auth/LoginModal'
@@ -9,7 +8,7 @@ import ImageModal from './image/ImageModal'
 type Props = {}
 
 export default function ModalPortal({}: Props) {
-  const modal = useSelector(getModal);
+  const modal = useAppSelector(getModal);
   
   switch (modal) {
     case ModalOptions.login:

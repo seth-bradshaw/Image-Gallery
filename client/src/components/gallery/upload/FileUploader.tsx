@@ -1,29 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as filestack from 'filestack-js';
-import { useDispatch, useSelector } from 'react-redux';
 import uploadImage from '../../../store/images/uploadImage.thunk';
 import UploadButton from './UploadButton';
 import { ImageTags } from '../../../store/types';
 import { getIsLoggedIn } from '../../../store/user/user.selectors';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
-type Props = {
-  config?: any
-}
+type Props = {}
 
 interface UploadError {
   filesFailed: Array<filestack.PickerFileMetadata>;
   error: Error;
 }
 
-export default function FileUploader({ config }: Props) {
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getIsLoggedIn)
+export default function FileUploader({}: Props) {
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector(getIsLoggedIn)
   const [client, setClient] = useState<filestack.Client>();
-  const tags = useRef({});
   const [error, setError] = useState<UploadError>({ filesFailed: [], error: {} as Error });
+  const tags = useRef<ImageTags>({} as ImageTags);
 
   const handleSuccess = async ({ handle }: filestack.PickerFileMetadata) => {
-    // @ts-ignore
     dispatch(uploadImage({ handle, tags: tags.current }))
   }
 
@@ -51,7 +48,7 @@ export default function FileUploader({ config }: Props) {
       uploadConfig: {
         retry: 3,
         timeout: 60000,
-        tags: tags.current
+        tags: (tags.current as any)
       },
       fromSources: ['local_file_system', 'url', 'imagesearch', 'facebook', 'instagram', 'googledrive', 'dropbox', 'unsplash', 'webcam', 'googlephotos']
     }

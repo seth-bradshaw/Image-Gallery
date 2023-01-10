@@ -1,6 +1,6 @@
 import { isNil } from 'rambda'
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../store/hooks';
 import { getNextRequestUrl, getPrevRequestUrl } from '../../../store/images/images.selectors';
 import Button from '../../common/Button'
 
@@ -9,8 +9,8 @@ type Props = {
 }
 
 export default function PaginationBar({ fetchUserImages }: Props) {
-  const next = useSelector(getNextRequestUrl);
-  const prev = useSelector(getPrevRequestUrl);
+  const next = useAppSelector(getNextRequestUrl);
+  const prev = useAppSelector(getPrevRequestUrl);
 
   return (
     <div className="w-full p-4 flex items-center justify-evenly">

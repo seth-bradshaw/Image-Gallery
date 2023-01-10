@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// @ts-ignore
 import Cookies from 'js-cookie';
 import { UserState } from "../types";
 import requestUserLogin, { LoginResponse } from "./loginUser.thunk";
