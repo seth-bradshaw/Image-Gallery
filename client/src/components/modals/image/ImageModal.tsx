@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../../store/hooks';
 import { getPoppedImage } from '../../../store/ui/ui.selectors'
 import { formatSource } from '../../gallery/ImageCard';
 import ModalWrapper from '../ModalWrapper';
@@ -7,7 +7,7 @@ import ModalWrapper from '../ModalWrapper';
 type Props = {}
 
 export default function ImageModal({}: Props) {
-  const image = useSelector(getPoppedImage);
+  const image = useAppSelector(getPoppedImage);
 
   if (!image) {
     return null;

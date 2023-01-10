@@ -1,8 +1,4 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { getIsLoggedIn } from "../../store/user/user.selectors";
 import FileUploader from "../gallery/upload/FileUploader";
-import useToggleModal from "../modals/useToggleModal";
 import UserCard from "../user/UserCard";
 
 type Props = {};

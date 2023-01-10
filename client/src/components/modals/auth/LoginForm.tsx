@@ -1,7 +1,6 @@
 import { isEmpty } from "rambda";
-import React, { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../../services/user";
 import requestUserLogin from "../../../store/user/loginUser.thunk";
 import Button, { ButtonType } from "../../common/Button";
 import Input, { HandleChangeEvent } from "../../common/Input";
@@ -24,7 +23,7 @@ export default function LoginForm({}: Props) {
     setLoginForm({ ...loginForm, [target.id]: target.value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!isEmpty(loginForm.errors)) {

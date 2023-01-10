@@ -1,8 +1,6 @@
 import axios from "axios";
-// @ts-ignore
 import Cookies from "js-cookie";
 import { CREATE_USER, LOGIN, LOGIN_WITH_TOKEN } from "../constants/endpoints";
-import { User } from "../store/types";
 import { getHeaders } from "./helpers";
 
 export type LoginBody = {

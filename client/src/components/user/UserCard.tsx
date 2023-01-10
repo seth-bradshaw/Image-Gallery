@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react'
 import { ModalOptions } from '../../store/types';
 import { logout } from '../../store/user/userSlice';
-import { getIsLoggedIn, getUser } from '../../store/user/user.selectors';
+import { getUser } from '../../store/user/user.selectors';
 import Button from '../common/Button'
 import DropDownWrapper from '../header/DropDownWrapper'
 import useToggleModal from '../modals/useToggleModal';
 import { clearImages } from '../../store/images/imageSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 type Props = {}
 
 export default function UserCard({}: Props) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [displayAccount, setDisplayAccount] = useState<boolean>(false);
-  const user = useSelector(getUser);
+  const user = useAppSelector(getUser);
   const promptModal = useToggleModal();
   
   const logoutUser = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import { isEmpty } from 'rambda';
 import { useDispatch } from 'react-redux';
 import useToggleModal from '../useToggleModal';
@@ -27,7 +27,7 @@ export default function SignupForm({}: Props) {
     setSignUpForm({ ...signUpForm, [target.id]: target.value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const {  errors, ...body } = signUpForm;
